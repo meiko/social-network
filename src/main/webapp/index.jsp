@@ -28,10 +28,10 @@
             FB.api('/me', function (response) {
                 $('#greet').html('Hi, ' + response.first_name + '!');
                 $('.on-off').toggle();
-                $('#account-details').html('<table style="width: 100%; border-spacing: 0;">' +
-                        '<tr><td style="width: 27%; padding: 0;">name:</td><td style="width: 73%; padding: 0;"><input type="text" style="width: 100%; margin: 0; border: 0;" value="' + response.name + '"/></td></tr>' +
-                        '<tr><td style="width: 27%; padding: 0;">email:</td><td style="width: 73%; padding: 0;"><input type="text" style="width: 100%; margin: 0; border: 0;" value="' + response.email + '"/></td></tr>' +
-                        '<tr><td style="width: 27%; padding: 0;">password:</td><td style="width: 73%; padding: 0;"><input type="password" style="width: 100%; margin: 0; border: 0;" value="**********"/></td></tr></table>'
+                $('#account-details').html('<form id="new-account-form"><table style="width: 100%; border-spacing: 0;">' +
+                        '<tr><td style="width: 27%; padding: 0;">name:</td><td style="width: 73%; padding: 0;"><input type="text" name="name" style="width: 100%; margin: 0; border: 0;" value="' + response.name + '"/></td></tr>' +
+                        '<tr><td style="width: 27%; padding: 0;">email:</td><td style="width: 73%; padding: 0;"><input type="text" name="email" style="width: 100%; margin: 0; border: 0;" value="' + response.email + '"/></td></tr>' +
+                        '<tr><td style="width: 27%; padding: 0;">password:</td><td style="width: 73%; padding: 0;"><input type="password" name="password" style="width: 100%; margin: 0; border: 0;" value="**********"/></td></tr></table></form>'
                 );
                 $('#facebook').show();
                 showAccountForm();
@@ -68,10 +68,12 @@
 
         function createAccount() {
             closeAccountForm(function () {
-                $('#message').fadeIn();
-                setTimeout(function () {
-                    $('#message').fadeOut();
-                }, 1000);
+                $.post('account/create', $('#new-account-form').serialize(), function () {
+                    $('#message').fadeIn();
+                    setTimeout(function () {
+                        $('#message').fadeOut();
+                    }, 1000);
+                });
             });
         }
     </script>
