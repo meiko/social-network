@@ -43,4 +43,8 @@ public class Account extends BaseEntity {
         this.password = password;
     }
 
+    @Override
+    public String toString() {
+        return String.format("Account {id:%s name:%s email:%s password:%s}", id, name, email, password);
+    }
 }

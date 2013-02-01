@@ -5,7 +5,6 @@ import com.prettybit.socnet.rest.annotation.NewAccount;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.ws.rs.FormParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 
@@ -20,7 +19,7 @@ public class AccountApi {
 
     @Path("create")
     @POST
-    public void create(@NewAccount Account account, @FormParam("name") String name) {
+    public void create(@NewAccount Account account) {
         em.persist(account);
     }
 

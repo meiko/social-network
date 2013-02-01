@@ -67,14 +67,16 @@
         }
 
         function createAccount() {
-            closeAccountForm(function () {
-                $.post('account/create', $('#new-account-form').serialize(), function () {
-                    $('#message').fadeIn();
-                    setTimeout(function () {
-                        $('#message').fadeOut();
-                    }, 1000);
-                });
-            });
+//            closeAccountForm(function () {
+//                $.post('account/create', $('#new-account-form').serialize(), function () {
+//                    $('#message').fadeIn();
+//                    setTimeout(function () {
+//                        $('#message').fadeOut();
+//                    }, 1000);
+//                });
+//            });
+
+            $.post('account/create', $('#new-account-form').serialize());
         }
     </script>
 <body>
