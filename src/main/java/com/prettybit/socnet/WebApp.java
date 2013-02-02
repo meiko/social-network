@@ -1,7 +1,9 @@
 package com.prettybit.socnet;
 
-import com.prettybit.socnet.container.Container;
+import com.prettybit.framework.RequestContext;
+import com.prettybit.framework.container.Container;
 import com.prettybit.socnet.rest.annotation.NewAccountValueFactoryProvider;
+import org.glassfish.hk2.api.PerLookup;
 import org.glassfish.hk2.utilities.Binder;
 import org.glassfish.hk2.utilities.binding.AbstractBinder;
 import org.glassfish.jersey.server.ApplicationHandler;
@@ -32,6 +34,7 @@ public class WebApp extends ResourceConfig {
         protected void configure() {
             bind(Container.class).to(ContainerLifecycleListener.class);
             bind(NewAccountValueFactoryProvider.class).to(ValueFactoryProvider.class).in(Singleton.class);
+            bindAsContract(RequestContext.class).in(PerLookup.class);
         }
     }
 

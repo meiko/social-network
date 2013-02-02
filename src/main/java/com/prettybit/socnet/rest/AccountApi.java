@@ -1,5 +1,6 @@
 package com.prettybit.socnet.rest;
 
+import com.prettybit.framework.container.Transactional;
 import com.prettybit.socnet.entity.Account;
 import com.prettybit.socnet.rest.annotation.NewAccount;
 
@@ -11,14 +12,15 @@ import javax.ws.rs.Path;
 /**
  * @author Pavel Mikhalchuk
  */
+@Transactional
 @Path("account")
 public class AccountApi {
 
     @PersistenceContext
     private EntityManager em;
 
-    @Path("create")
     @POST
+    @Path("create")
     public void create(@NewAccount Account account) {
         em.persist(account);
     }

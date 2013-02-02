@@ -1,19 +1,23 @@
-package com.prettybit.socnet.container;
+package com.prettybit.framework.container;
 
 import org.glassfish.hk2.api.Injectee;
 import org.glassfish.hk2.api.InjectionResolver;
 import org.glassfish.hk2.api.ServiceHandle;
 
+import javax.inject.Inject;
 import javax.persistence.PersistenceContext;
 
 /**
  * @author Pavel Mikhalchuk
  */
-public class EMInjectionResolverProvider implements InjectionResolver<PersistenceContext> {
+public class PersistenceContextInjector implements InjectionResolver<PersistenceContext> {
+
+    @Inject
+    private PersistenceContextProvider provider;
 
     @Override
     public Object resolve(Injectee injectee, ServiceHandle<?> root) {
-        return Container.newEntityManager();
+        return provider.get();
     }
 
     @Override

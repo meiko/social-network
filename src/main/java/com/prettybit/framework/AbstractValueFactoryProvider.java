@@ -1,13 +1,11 @@
-package com.prettybit.socnet.rest.annotation;
+package com.prettybit.framework;
 
 import org.glassfish.hk2.api.Factory;
 import org.glassfish.hk2.api.ServiceLocator;
-import org.glassfish.jersey.server.ContainerRequest;
 import org.glassfish.jersey.server.model.Parameter;
 import org.glassfish.jersey.server.spi.internal.ValueFactoryProvider;
 
 import javax.inject.Inject;
-import javax.inject.Provider;
 import java.lang.annotation.Annotation;
 
 /**
@@ -17,9 +15,6 @@ public abstract class AbstractValueFactoryProvider implements ValueFactoryProvid
 
     @Inject
     private ServiceLocator locator;
-
-    @Inject
-    private Provider<ContainerRequest> request;
 
     private Class<? extends Annotation> annotation;
 
@@ -37,8 +32,6 @@ public abstract class AbstractValueFactoryProvider implements ValueFactoryProvid
 
     @Override
     public PriorityType getPriority() { return Priority.NORMAL; }
-
-    protected ContainerRequest request() { return request.get(); }
 
     protected abstract Factory<?> createFactory();
 
