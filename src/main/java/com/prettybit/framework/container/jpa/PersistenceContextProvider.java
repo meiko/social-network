@@ -1,6 +1,7 @@
-package com.prettybit.framework.container;
+package com.prettybit.framework.container.jpa;
 
 import com.prettybit.framework.RequestContext;
+import com.prettybit.framework.container.Container;
 import com.prettybit.framework.utils.Fn;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,6 +23,10 @@ public class PersistenceContextProvider {
 
     public EntityManager get() {
         return c.getOrSet(EM, newEntityManager());
+    }
+
+    public void close() {
+        get().close();
     }
 
     private Fn.SimpleFunction<EntityManager> newEntityManager() {

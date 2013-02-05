@@ -5,7 +5,26 @@
 <head>
     <title>Social Network</title>
     <script type="text/javascript" src="js/jquery-1.9.js"></script>
+    <script type="text/javascript" src="js/jquery.cookie.js"></script>
     <script type="text/javascript">
+
+        function socnetLogin(email, password) {
+            $.cookie('email', 'ppp', { path: '/' });
+            $.cookie('password', 'mmm', { path: '/' });
+            $.get('account/login', function (vara) {
+                alert(vara);
+            });
+        }
+
+        function facebookLoginSuccess(response) {
+            onUser(response.authResponse.accessToken);
+        }
+
+        function facebookLoginFailure() {
+            $('#greet').html('Sign In');
+            $('#facebook').show();
+        }
+
         function signIn() {
             FB.login(function (response) {
                 if (response.authResponse) {
@@ -54,65 +73,33 @@
         }
 
         function closeAccountForm(complete) {
-            $('#account-details,#close-button,#create-button').animate({opacity: '0'}, 200, function () {
-                $('#account-form').animate({
-                    width: '0',
-                    height: '0',
-                    opacity: '0'
-                }, 150, function () {
-                    $("#account").hide();
-                    if (complete) complete();
-                });
-            });
+            $('#account-details,#close-button,#create-button').animate({opacity: '0'}, 200,
+                    function () {
+                        $('#account-form').animate({
+                            width: '0',
+                            height: '0',
+                            opacity: '0'
+                        }, 150);
+                    }).promise().done(function () {
+                        $("#account").hide();
+                        if (complete) complete();
+                    });
         }
 
         function createAccount() {
-//            closeAccountForm(function () {
-//                $.post('account/create', $('#new-account-form').serialize(), function () {
-//                    $('#message').fadeIn();
-//                    setTimeout(function () {
-//                        $('#message').fadeOut();
-//                    }, 1000);
-//                });
-//            });
-
-            $.post('account/create', $('#new-account-form').serialize());
+            closeAccountForm(function () {
+                $.post('account/create', $('#new-account-form').serialize(), function () {
+                    $('#message').fadeIn();
+                    setTimeout(function () {
+                        $('#message').fadeOut();
+                    }, 1000);
+                });
+            });
         }
     </script>
 <body>
 
-<div id="fb-root"></div>
-<script>
-    window.fbAsyncInit = function () {
-        FB.init({
-            appId: '413685252046415',
-            channelUrl: 'http://localhost:8080/channel.html',
-            status: true,
-            cookie: true,
-            xfbml: true
-        });
-        FB.getLoginStatus(function (response) {
-            if (response.status === 'connected') {
-                onUser(response.authResponse.accessToken);
-            } else {
-                $('#greet').html('Sign In');
-                $('#facebook').show();
-            }
-        });
-    };
-
-    (function (d) {
-        var js, id = 'facebook-jssdk', ref = d.getElementsByTagName('script')[0];
-        if (d.getElementById(id)) {
-            return;
-        }
-        js = d.createElement('script');
-        js.id = id;
-        js.async = true;
-        js.src = '//connect.facebook.net/en_US/all.js';
-        ref.parentNode.insertBefore(js, ref);
-    }(document));
-</script>
+<jsp:include page="facebook.jsp"/>
 
 <div style="margin-left: 1080px; position: relative;">
     <div id="facebook" style="height: 32px; overflow: hidden; display: none;">
@@ -143,7 +130,10 @@
 <div id="message" style="margin: 10px 0 0 1100px; font-size: 13px; display: none;">account created</div>
 
 <div>
-    <input type="button" value="sdf" onclick="showAccountForm();"/>
+    <input type="button" value="Facebook Login" onclick="facebookLogin(facebookLoginSuccess, facebookLoginFailure);"/>
+</div>
+<div>
+    <input type="button" value="Soc Net Login" onclick="socnetLogin();"/>
 </div>
 
 </body>
